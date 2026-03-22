@@ -16,14 +16,14 @@ int main(){
     printf("Enter allocation matrix:");
     for(i=0;i<p;i++){
         for(j=0;j<r;j++){
-            scanf("%d",&allocation[p][r]);
+            scanf("%d",&allocation[i][j]);
         }
     }
     
     printf("Input max matrix");
     for(i=0;i<p;i++){
         for(j=0;j<r;j++){
-            scanf("%d",&max[p][r]);
+            scanf("%d",&max[i][j]);
         }
     }
     
