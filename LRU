@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int ref[100], frame[10];
+
+int lru(int n, int f) {
+    int faults = 0;
+    int time[10];
+
+    for(int i = 0; i < f; i++) {
+        frame[i] = -1;
+        time[i] = -1;
+    }
+
+    for(int i = 0; i < n; i++) {
+        int found = 0;
+
+        for(int j = 0; j < f; j++) {
+            if(frame[j] == ref[i]) {
+                time[j] = i;
+                found = 1;
+                break;
+            }
+        }
+
+        if(!found) {
+            int pos = 0;
+
+            for(int j = 1; j < f; j++) {
+                if(time[j] < time[pos])
+                    pos = j;
+            }
+
+            frame[pos] = ref[i];
+            time[pos] = i;
+            faults++;
+        }
+    }
+
+    return faults;
+}
+
+int main() {
+    int n, f;
+
+    printf("Enter length of reference string: ");
+    scanf("%d", &n);
+
+    printf("Enter number of frames: ");
+    scanf("%d", &f);
+
+    srand(time(0));
+
+    printf("Reference String: ");
+    for(int i = 0; i < n; i++) {
+        ref[i] = rand() % 10;
+        printf("%d ", ref[i]);
+    }
+
+    printf("\nLRU Page Faults = %d\n", lru(n, f));
+
+    return 0;
+}
