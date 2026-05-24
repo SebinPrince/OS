@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int ref[100], frame[10];
+
+int fifo(int n, int f) {
+    int faults = 0, k = 0;
+
+    for(int i = 0; i < f; i++)
+        frame[i] = -1;
+
+    for(int i = 0; i < n; i++) {
+        int found = 0;
+
+        for(int j = 0; j < f; j++) {
+            if(frame[j] == ref[i]) {
+                found = 1;
+                break;
+            }
+        }
+
+        if(!found) {
+            frame[k] = ref[i];
+            k = (k + 1) % f;
+            faults++;
+        }
+    }
+
+    return faults;
+}
+
+int main() {
+    int n, f;
+
+    printf("Enter length of reference string: ");
+    scanf("%d", &n);
+
+    printf("Enter number of frames: ");
+    scanf("%d", &f);
+
+    srand(time(0));
+
+    printf("Reference String: ");
+    for(int i = 0; i < n; i++) {
+        ref[i] = rand() % 10;
+        printf("%d ", ref[i]);
+    }
+
+    printf("\nFIFO Page Faults = %d\n", fifo(n, f));
+
+    return 0;
+}
